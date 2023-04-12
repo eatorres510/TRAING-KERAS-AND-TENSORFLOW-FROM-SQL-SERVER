@@ -1,7 +1,5 @@
-#First, make sure you have the following packages installed: `pyodbc`, `tensorflow`, and `keras`.
+#First, make sure you have the following packages installed: pyodbc, tensorflow, and keras.
 
-
-#import pyodbc
 import sqlalchemy as db
 from sqlalchemy import create_engine
 import pandas as pd
@@ -18,15 +16,6 @@ database = 'AdventureWorksDW2019'
 username = 'sa'
 password = '$42023*'
 
-# Create a database connection
-#conn = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+password)
-#from sqlalchemy import create_engine
- 
- #server = 'localhost'
- #database = 'AdventureWorksDW2019'
- #username = 'sa'
- #password = '$42023*'
- 
 # Define database connection string
 connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=SQL Server'
 
@@ -41,15 +30,10 @@ conn = engine.connect()
 
 # Retrieve data from database
 query = text("SELECT [ProductKey],[CustomerKey],[SalesTerritoryKey],CustomerPONumber  FROM [AdventureWorksDW2019].[dbo].[FactInternetSales]")
-#df = pd.read_sql(query, conn) 
-#with engine.connect() as conn:
-#result_set= conn.execute(query)
 result_set = conn.execute(query)
 
 # Load the result set into a pandas dataframe
 df = pd.read_sql_query(sql=query, con=engine.connect())
-
-#df = pd.DataFrame(result_set.fetchall(), columns=result_set.keys())
 
 # Close the result set
 result_set.close()
@@ -91,6 +75,3 @@ yt = np.asarray(y_test).astype('float32')
 # Evaluate the model
 score = model.evaluate(xt, yt)
 print('Test accuracy:', score[1])
-
-# Close the database connection
-#conn.close()
